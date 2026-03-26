@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
+use App\Mail\LoginAlertMail;
 
 class AuthController extends Controller
 {
-    // Funciones de nuestro controller♥
+    // Funciones de nuestro controller
     function showRegister(){
         return view('register');
     }
@@ -23,18 +26,12 @@ class AuthController extends Controller
         ]);
 
         // CREAR USUARIO
-        User::create([
-            'name'=> $request->name,
-            'email'=> $request->email,
-            'password'=> Hash::make($request->password),
-        ]);
-//para mails - 7 lineas
         $user = User::create([
             'name'=> $request->name,
             'email'=> $request->email,
             'password'=> Hash::make($request->password),
         ]);
-
+//ENVIAR CORREO
         \Mail::to($user->email)->send(new \App\Mail\WelcomeMail($user));
 
         // REDIRIGIR A LOGIN
@@ -54,14 +51,9 @@ class AuthController extends Controller
         // ATTEMPT / INTENTO DE LOGIN
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
-            return redirect('/dashboard')->with('success','Bienvenido de nuevo');
-        }
-//para email - 5 lineas
-        if(Auth::attempt($credentials)){
-            $request->session()->regenerate();
             $user = Auth::user();
             \Mail::to($user->email)->send(new \App\Mail\LoginAlertMail($user));
-            return redirect('/dashboard');
+            return redirect('/dashboard')->with('success','Bienvenido de nuevo');
         }
         return back()->withErrors(['email'=>"Credenciales incorrectas"])->onlyInput('email');
     }
