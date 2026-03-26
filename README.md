@@ -1,3 +1,17 @@
+<h1>Tarea y Actividad tema 9 (act9, tarea8)</h1>
+<p>El tema es seguridad</p>
+Instructions
+You will create a Laravel 7 project with the following characteristics:
+
+First, the project should be named "activity-9", you will also create the project for GitHub.
+Next, you will create the authentication system.
+Then, you will make the necessary changes so that unregistered users, when accessing the system, display a view called "landingpage", and registered users can access a view called "dashboard".
+Modify your navbar so that the options change depending on whether the user is logged in (dashboard access appears).
+In case the user is not logged in, the navbar should display the login and registration options.
+Create both views with the content of your choice, they must be views that clearly distinguish each other, and make it clear which is the landingpage and which is the dashboard.
+Important: a guest user cannot access the dashboard view.
+<h3>La tarea era implementar APIS para correos electronicos</h3>
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
