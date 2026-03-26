@@ -28,6 +28,14 @@ class AuthController extends Controller
             'email'=> $request->email,
             'password'=> Hash::make($request->password),
         ]);
+//para mails - 7 lineas
+        $user = User::create([
+            'name'=> $request->name,
+            'email'=> $request->email,
+            'password'=> Hash::make($request->password),
+        ]);
+
+        \Mail::to($user->email)->send(new \App\Mail\WelcomeMail($user));
 
         // REDIRIGIR A LOGIN
         return redirect('/login')->with('success', 'Usuario creado correctamente');
@@ -47,6 +55,13 @@ class AuthController extends Controller
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
             return redirect('/dashboard')->with('success','Bienvenido de nuevo');
+        }
+//para email - 5 lineas
+        if(Auth::attempt($credentials)){
+            $request->session()->regenerate();
+            $user = Auth::user();
+            \Mail::to($user->email)->send(new \App\Mail\LoginAlertMail($user));
+            return redirect('/dashboard');
         }
         return back()->withErrors(['email'=>"Credenciales incorrectas"])->onlyInput('email');
     }
